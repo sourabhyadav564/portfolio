@@ -246,7 +246,7 @@ function StoreToggle({ store, setStore }: { store: Store; setStore: (s: Store) =
           <button
             key={s}
             onClick={() => setStore(s)}
-            className="relative z-10 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors md:text-sm"
+            className="relative z-10 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors md:text-sm cursor-pointer"
             style={{ color: active ? (s === "ios" ? "#ffffff" : "#ffffff") : "var(--store-muted)" }}
           >
             {active && (
@@ -385,7 +385,7 @@ function IOSHero() {
             <button
               onClick={handleShare}
               aria-label="Share"
-              className="grid h-8 w-8 place-items-center rounded-full transition-transform active:scale-95"
+              className="grid h-8 w-8 place-items-center rounded-full transition-transform active:scale-95 cursor-pointer"
               style={{ color: "var(--store-accent)" }}
             >
               <Share2 className="h-4 w-4" />
@@ -611,7 +611,7 @@ function AndroidHero() {
         </motion.a>
         <button
           onClick={handleShare}
-          className="inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-medium transition-transform active:scale-95"
+          className="inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-medium transition-transform active:scale-95 cursor-pointer"
           style={{ background: "var(--store-chip)", color: "var(--store-accent)" }}
         >
           <Share2 className="h-4 w-4" /> Share
@@ -693,7 +693,7 @@ function AndroidTabs() {
           <button
             key={t.id}
             onClick={() => handleTabClick(t.id)}
-            className="relative py-3 text-sm font-medium transition-colors whitespace-nowrap"
+            className="relative py-3 text-sm font-medium transition-colors whitespace-nowrap cursor-pointer"
             style={{ color: active ? "var(--store-accent)" : "var(--store-muted)" }}
           >
             {t.label}
