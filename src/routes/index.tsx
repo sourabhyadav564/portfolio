@@ -20,7 +20,8 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 import oruphones from "@/assets/project-oruphones.jpg";
 import healthcheck from "@/assets/project-healthcheck.jpg";
@@ -87,35 +88,60 @@ const PROJECTS = [
 const EXPERIENCE = [
   {
     version: "v4.0",
-    role: "SDE I — Flutter",
+    role: "Software Development Engineer - I (Flutter)",
     company: "Zime.ai",
-    period: "Dec 2025 — Present",
+    period: "Dec 2025 — May 2026",
     bullets: [
-      "Shipped Flutter features with Clean Architecture, Repository Pattern and BLoC/Provider.",
-      "Integrated REST, WebSockets, FCM, push notifications and background services.",
-      "Built offline-first audio recording with background sync — zero data loss on drops.",
-      "Extended into backend with Spring Boot APIs powering the CRM.",
+      "Developed cross-platform Android and iOS features using Flutter following Clean Architecture, Repository Pattern, and BLoC/Provider.",
+      "Integrated REST APIs, WebSockets, Firebase (FCM), push notifications, and background services.",
+      "Built offline-first audio recording with automatic upload and background synchronization, eliminating data loss on connectivity drops.",
+      "Improved app performance using caching, lazy loading, and memory optimization.",
+      "Built backend APIs and data pipelines using Spring Boot to power CRM and internal dashboard features, working across the mobile-to-backend stack.",
+      "Partnered with backend, QA, and product teams across Agile sprints to plan, estimate, and ship features on schedule.",
     ],
   },
   {
     version: "v3.0",
-    role: "Flutter & iOS Developer",
-    company: "Mobilicis India",
+    role: "Software Developer (Flutter & iOS)",
+    company: "Mobilicis India Pvt. Ltd.",
     period: "Apr 2022 — Aug 2025",
     bullets: [
-      "Led ORUphones — 30+ hardware tests via native Swift & Java integrations.",
-      "Published Phone Health Check and Device Info to App Store & Play Store.",
-      "Improved app launch time by 20% via caching, isolates and lazy loading.",
-      "Owned App Store Connect and Google Play releases end-to-end.",
+      "Led development of ORUphones, a Flutter-based smartphone diagnostics and recommerce platform with 30+ hardware tests using native Swift and Java integrations.",
+      "Built and published Phone Health Check and Device Info, providing automated diagnostics and 250+ device specifications.",
+      "Designed scalable applications using Clean Architecture, BLoC, Provider, and reusable modular components, cutting new-feature development time across teams.",
+      "Integrated Firebase (Crashlytics, Analytics, FCM), REST APIs, deep linking, and third-party SDKs.",
+      "Improved app launch time by 20% through caching, isolates, lazy loading, and memory optimization.",
+      "Owned App Store Connect and Google Play releases end-to-end, including CI/CD pipelines, TestFlight distribution, and production rollouts.",
+      "Built reusable Flutter components and integrated native Android/iOS features via Platform Channels; contributed across the Agile SDLC, including code reviews and production support.",
     ],
   },
 ];
 
 const SKILL_CATEGORIES = [
-  { title: "Mobile", items: ["Flutter", "Dart", "Swift", "SwiftUI", "UIKit", "Java", "Android SDK", "Platform Channels"] },
-  { title: "Architecture", items: ["Clean Architecture", "MVVM", "BLoC", "Provider", "Repository", "DI"] },
-  { title: "Backend & Cloud", items: ["REST", "Firebase", "FCM", "Dio", "WebSockets", "Spring Boot", "AWS", "MongoDB"] },
-  { title: "DevOps & Web", items: ["Git", "GitHub Actions", "Jenkins", "CI/CD", "Xcode", "Android Studio", "React", "Next.js"] },
+  {
+    title: "Mobile Development",
+    items: ["Flutter", "Dart", "UIKit", "SwiftUI", "Swift", "Java", "Android SDK", "XML", "Platform Channels", "Method Channels"]
+  },
+  {
+    title: "Architecture",
+    items: ["Clean Architecture", "MVVM", "BLoC", "Provider", "Repository Pattern", "Dependency Injection"]
+  },
+  {
+    title: "Backend & APIs",
+    items: ["REST APIs", "JSON", "Firebase", "FCM", "Crashlytics", "Analytics", "Dio", "WebSockets"]
+  },
+  {
+    title: "Cloud & Database",
+    items: ["AWS EC2", "AWS S3", "MySQL", "MongoDB"]
+  },
+  {
+    title: "DevOps & Tools",
+    items: ["Git", "GitHub Actions", "Jenkins", "CI/CD", "Xcode", "Android Studio", "VS Code", "Postman"]
+  },
+  {
+    title: "Other Skills",
+    items: ["JavaScript", "Python", "React", "Next.js", "Node.js", "HTML5", "CSS3", "Tailwind CSS", "Spring Boot"]
+  }
 ];
 
 const REVIEWS = [
@@ -123,6 +149,38 @@ const REVIEWS = [
   { name: "Engineering Manager", rating: 5, title: "Deep Flutter + native chops", body: "Wrote Platform Channels for 30+ hardware diagnostics on iOS and Android. Rare combination of Dart and native platform depth." },
   { name: "SIH 2022 Judges", rating: 5, title: "National-level winner", body: "Built the winning multilingual PIB news app at Smart India Hackathon 2022." },
 ];
+
+const handleShare = async () => {
+  const url = "https://sourabhyadav.netlify.app/";
+  const shareData = {
+    title: "Sourabh Yadav — Flutter & Mobile App Developer",
+    text: "Check out Sourabh Yadav's portfolio — Flutter & Mobile App Developer",
+    url,
+  };
+  
+  if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      if ((err as Error).name !== "AbortError") {
+        console.error(err);
+        copyLink(url);
+      }
+    }
+  } else {
+    copyLink(url);
+  }
+};
+
+const copyLink = async (url: string) => {
+  try {
+    await navigator.clipboard.writeText(url);
+    toast.success("Portfolio link copied to clipboard!");
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to copy link to clipboard");
+  }
+};
 
 function Portfolio() {
   const [store, setStore] = useState<Store>("ios");
@@ -277,6 +335,15 @@ function IOSListing() {
       <IOSSection title="Preview" subtitle="Featured Projects">
         <ProjectsGrid store="ios" />
       </IOSSection>
+      <IOSSection title="Description">
+        <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: "var(--store-muted)" }}>
+          Mobile Application Developer with 4+ years of experience building scalable Android and iOS applications using Flutter, Dart, Swift, UIKit, and Java, with backend experience building APIs and data pipelines using Spring Boot.
+          
+          Shipped and scaled production apps including ORUphones and Phone Health Check, designed with Clean Architecture, BLoC, Provider, Repository Pattern, and Dependency Injection. Experienced integrating REST APIs, Firebase, WebSockets, native platform features, and CI/CD pipelines.
+          
+          Delivered 5+ production applications, improved app performance and launch time by 20%, and owned end-to-end mobile delivery from development through App Store / Play Store release.
+        </p>
+      </IOSSection>
       <IOSSection title="Ratings & Reviews" trailing={<a href="#reviews" className="text-sm font-medium" style={{ color: "var(--store-accent)" }}>See All</a>}>
         <IOSRatings />
       </IOSSection>
@@ -316,8 +383,9 @@ function IOSHero() {
               Hire
             </motion.a>
             <button
+              onClick={handleShare}
               aria-label="Share"
-              className="grid h-8 w-8 place-items-center rounded-full"
+              className="grid h-8 w-8 place-items-center rounded-full transition-transform active:scale-95"
               style={{ color: "var(--store-accent)" }}
             >
               <Share2 className="h-4 w-4" />
@@ -458,6 +526,7 @@ function IOSInfo() {
     { k: "Location", v: "Gurugram, India" },
     { k: "Category", v: "Mobile Development" },
     { k: "Education", v: "B.Tech CSE · MITRC · CGPA 7.79" },
+    { k: "Achievements", v: "SIH 2022 Winner (PIB)" },
     { k: "Languages", v: "English, Hindi" },
     { k: "Age Rating", v: "4+ Years Experience" },
   ];
@@ -481,10 +550,9 @@ function AndroidListing() {
       <AndroidHero />
       <AndroidMetricStrip />
       <AndroidTabs />
-      <AndroidSection title="About this developer" trailing={<ChevronRight className="h-5 w-5" style={{ color: "var(--store-muted)" }} />}>
+      <AndroidSection id="about" title="About this developer" trailing={<ChevronRight className="h-5 w-5" style={{ color: "var(--store-muted)" }} />}>
         <p className="text-sm leading-relaxed" style={{ color: "var(--store-muted)" }}>
-          Mobile Application Developer with 4+ years shipping production Flutter, iOS and Android apps.
-          Clean Architecture, BLoC, and deep native platform integrations. Currently building at Zime.ai.
+          Mobile Application Developer with 4+ years of experience building scalable Android and iOS applications using Flutter, Dart, Swift, UIKit, and Java, with backend experience building APIs and data pipelines using Spring Boot. Shipped and scaled production apps including ORUphones and Phone Health Check, designed with Clean Architecture, BLoC, Provider, Repository Pattern, and Dependency Injection. Experienced integrating REST APIs, Firebase, WebSockets, native platform features, and CI/CD pipelines. Delivered 5+ production applications, improved app performance and launch time by 20%, and owned end-to-end mobile delivery from development through App Store / Play Store release.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {["Flutter Dev", "iOS", "Android", "Clean Arch", "BLoC", "Platform Channels"].map((c) => (
@@ -493,11 +561,11 @@ function AndroidListing() {
         </div>
       </AndroidSection>
 
-      <AndroidSection title="Featured apps" trailing={<a href="#" className="text-sm font-semibold" style={{ color: "var(--store-accent)" }}>See all</a>}>
+      <AndroidSection id="projects" title="Featured apps" trailing={<a href="#projects" className="text-sm font-semibold" style={{ color: "var(--store-accent)" }}>See all</a>}>
         <ProjectsGrid store="android" />
       </AndroidSection>
 
-      <AndroidSection title="Ratings and reviews">
+      <AndroidSection id="reviews" title="Ratings and reviews">
         <AndroidRatings />
       </AndroidSection>
 
@@ -505,7 +573,7 @@ function AndroidListing() {
         <VersionHistory store="android" />
       </AndroidSection>
 
-      <AndroidSection title="Categories & tech">
+      <AndroidSection id="skills" title="Categories & tech">
         <SkillTiles store="android" />
       </AndroidSection>
 
@@ -539,10 +607,11 @@ function AndroidHero() {
           className="flex-1 inline-flex items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold"
           style={{ background: "var(--store-accent)", color: "var(--store-accent-fg)" }}
         >
-          Install <Download className="h-4 w-4" />
+          HIRE <Download className="h-4 w-4" />
         </motion.a>
         <button
-          className="inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-medium"
+          onClick={handleShare}
+          className="inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-medium transition-transform active:scale-95"
           style={{ background: "var(--store-chip)", color: "var(--store-accent)" }}
         >
           <Share2 className="h-4 w-4" /> Share
@@ -574,34 +643,87 @@ function AndroidMetricStrip() {
 }
 
 function AndroidTabs() {
-  const tabs = ["About", "Projects", "Reviews", "Skills"];
+  const tabs = [
+    { label: "About", id: "about" },
+    { label: "Projects", id: "projects" },
+    { label: "Reviews", id: "reviews" },
+    { label: "Skills", id: "skills" },
+  ];
+  const [activeTab, setActiveTab] = useState("about");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((e) => e.isIntersecting);
+        if (visible) {
+          setActiveTab(visible.target.id);
+        }
+      },
+      { rootMargin: "-20% 0px -60% 0px" }
+    );
+
+    tabs.forEach((t) => {
+      const el = document.getElementById(t.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleTabClick = (id: string) => {
+    setActiveTab(id);
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   return (
     <div className="flex gap-6 border-b overflow-x-auto" style={{ borderColor: "var(--store-divider)" }}>
-      {tabs.map((t, i) => (
-        <button
-          key={t}
-          className="relative py-3 text-sm font-medium"
-          style={{ color: i === 0 ? "var(--store-accent)" : "var(--store-muted)" }}
-        >
-          {t}
-          {i === 0 && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full" style={{ background: "var(--store-accent)" }} />}
-        </button>
-      ))}
+      {tabs.map((t) => {
+        const active = activeTab === t.id;
+        return (
+          <button
+            key={t.id}
+            onClick={() => handleTabClick(t.id)}
+            className="relative py-3 text-sm font-medium transition-colors whitespace-nowrap"
+            style={{ color: active ? "var(--store-accent)" : "var(--store-muted)" }}
+          >
+            {t.label}
+            {active && (
+              <motion.span
+                layoutId="android-tab-pill"
+                className="absolute inset-x-0 -bottom-px h-0.5 rounded-full"
+                style={{ background: "var(--store-accent)" }}
+              />
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
 function AndroidSection({
   title,
+  id,
   trailing,
   children,
 }: {
   title: string;
+  id?: string;
   trailing?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <section className="space-y-4">
+    <section id={id} className="scroll-mt-24 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold md:text-lg">{title}</h2>
         {trailing}
@@ -664,9 +786,9 @@ function AndroidInfo() {
     { k: "Version", v: "4.0 (Zime.ai)", icon: Download },
     { k: "Updated on", v: "Dec 2025", icon: Calendar },
     { k: "Requires", v: "Flutter 3.x · Dart 3.x", icon: Shield },
-    { k: "Released on", v: "Apr 2022", icon: Briefcase },
+    { k: "Education", v: "B.Tech CSE · MITRC · CGPA 7.79", icon: Award },
     { k: "Downloads", v: "5+ production apps", icon: Users },
-    { k: "Offered by", v: "Sourabh Yadav · Gurugram, IN", icon: MapPin },
+    { k: "Achievements", v: "SIH 2022 Winner (PIB)", icon: Star },
   ];
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -694,7 +816,13 @@ function ProjectsGrid({ store }: { store: Store }) {
         <motion.a
           key={p.name}
           whileHover={{ y: -2 }}
-          href={p.link ?? "#"}
+          href={p.link ?? undefined}
+          onClick={(e) => {
+            if (!p.link) {
+              e.preventDefault();
+              toast.info("This SIH 2022 winning application was built internally for the Press Information Bureau and is not publicly listed on App Store / Play Store.");
+            }
+          }}
           target={p.link ? "_blank" : undefined}
           rel="noreferrer"
           className="flex items-start gap-3 p-3"
