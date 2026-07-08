@@ -1,0 +1,187 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Sourabh Yadav — Flutter Developer Portfolio
+ * Design system: deep navy canvas + electric Flutter-blue accent.
+ * All color / gradient / shadow tokens live here. Components consume
+ * semantic tokens, never hex literals.
+ */
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-glow: var(--glow);
+
+  --shadow-glow: 0 0 60px -10px oklch(0.55 0.24 262 / 0.5);
+  --shadow-card: 0 1px 0 0 oklch(1 0 0 / 0.06) inset, 0 20px 40px -20px oklch(0 0 0 / 0.6);
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* Deep navy canvas */
+  --background: oklch(0.16 0.04 260);
+  --foreground: oklch(0.97 0.01 250);
+
+  --surface: oklch(0.21 0.045 262);
+  --surface-elevated: oklch(0.25 0.05 262);
+
+  --card: oklch(0.21 0.045 262);
+  --card-foreground: oklch(0.97 0.01 250);
+  --popover: oklch(0.21 0.045 262);
+  --popover-foreground: oklch(0.97 0.01 250);
+
+  /* Electric Flutter blue */
+  --primary: oklch(0.62 0.24 262);
+  --primary-foreground: oklch(0.99 0 0);
+  --glow: oklch(0.7 0.22 258);
+
+  --secondary: oklch(0.28 0.05 262);
+  --secondary-foreground: oklch(0.97 0.01 250);
+  --muted: oklch(0.24 0.04 262);
+  --muted-foreground: oklch(0.72 0.03 258);
+  --accent: oklch(0.75 0.18 200);
+  --accent-foreground: oklch(0.16 0.04 260);
+
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.62 0.24 262);
+}
+
+.dark {
+  --background: oklch(0.16 0.04 260);
+  --foreground: oklch(0.97 0.01 250);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, oklch(0.62 0.24 262 / 0.25), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 100% 30%, oklch(0.75 0.18 200 / 0.12), transparent 60%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(120deg, oklch(0.97 0.01 250) 0%, oklch(0.7 0.22 258) 60%, oklch(0.85 0.15 200) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility glass {
+  background-color: oklch(0.21 0.045 262 / 0.55);
+  backdrop-filter: blur(14px);
+  border: 1px solid oklch(1 0 0 / 0.08);
+}
+
+@utility glow-ring {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility grid-lines {
+  background-image:
+    linear-gradient(to right, oklch(1 0 0 / 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ---------- Store themes (App Store / Play Store) ---------- */
+[data-store] {
+  color: var(--store-fg);
+  background: var(--store-bg);
+  font-family: var(--store-font, var(--font-sans));
+}
+
+[data-store="ios"] {
+  --store-bg: #f2f2f7;
+  --store-fg: #1c1c1e;
+  --store-muted: #6e6e73;
+  --store-subtle: #8e8e93;
+  --store-card: #ffffff;
+  --store-card-2: #f9f9fb;
+  --store-border: rgba(60, 60, 67, 0.12);
+  --store-divider: rgba(60, 60, 67, 0.18);
+  --store-accent: #007aff;
+  --store-accent-fg: #ffffff;
+  --store-chip: #eef0f4;
+  --store-star: #ff9500;
+  --store-nav: rgba(242, 242, 247, 0.72);
+  --store-radius: 22px;
+  --store-radius-sm: 14px;
+  --store-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Inter", sans-serif;
+  --store-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px -12px rgba(0,0,0,0.12);
+}
+
+[data-store="android"] {
+  --store-bg: #ffffff;
+  --store-fg: #1f1f1f;
+  --store-muted: #5f6368;
+  --store-subtle: #80868b;
+  --store-card: #ffffff;
+  --store-card-2: #f6f8fa;
+  --store-border: #e8eaed;
+  --store-divider: #eceff1;
+  --store-accent: #01875f;
+  --store-accent-fg: #ffffff;
+  --store-chip: #e8f0fe;
+  --store-star: #01875f;
+  --store-nav: rgba(255, 255, 255, 0.92);
+  --store-radius: 20px;
+  --store-radius-sm: 12px;
+  --store-font: "Google Sans", "Product Sans", Roboto, "Inter", system-ui, sans-serif;
+  --store-shadow: 0 1px 2px rgba(60,64,67,0.08), 0 4px 16px -6px rgba(60,64,67,0.16);
+}
+
